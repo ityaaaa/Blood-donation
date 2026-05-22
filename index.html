@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Donation Emergency System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>🩸 Blood Donation Emergency System</h1>
+        <p class="subtitle">Find compatible donors in your area instantly</p>
+
+        <div class="form-wrapper">
+            <form method="POST">
+                <label for="blood_group">Select Your Blood Group:</label>
+
+                <select name="blood_group" id="blood_group">
+                    <option value="">-- Choose Blood Group --</option>
+                    <option value="A+" {% if selected_group|default("") == "A+" %}selected{% endif %}>A+</option>
+                    <option value="A-" {% if selected_group|default("") == "A-" %}selected{% endif %}>A-</option>
+                    <option value="B+" {% if selected_group|default("") == "B+" %}selected{% endif %}>B+</option>
+                    <option value="B-" {% if selected_group|default("") == "B-" %}selected{% endif %}>B-</option>
+                    <option value="AB+" {% if selected_group|default("") == "AB+" %}selected{% endif %}>AB+</option>
+                    <option value="AB-" {% if selected_group|default("") == "AB-" %}selected{% endif %}>AB-</option>
+                    <option value="O+" {% if selected_group|default("") == "O+" %}selected{% endif %}>O+</option>
+                    <option value="O-" {% if selected_group|default("") == "O-" %}selected{% endif %}>O-</option>
+                </select>
+
+                <button type="submit">Search Donors</button>
+            </form>
+        </div>
+
+        <h2>Available Donors</h2>
+
+        <div class="donors-list">
+            {% if donors %}
+                {% for donor in donors %}
+                    <div class="donor-card">
+                        <p><strong>Name:</strong> {{ donor.full_name }}</p>
+                        <p><strong>Phone:</strong> {{ donor.phone_number }}</p>
+                        <p><strong>Blood Group:</strong> {{ donor.blood_group }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-donors">
+                    <p>No donors found. Select a blood group to search.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+</body>
+</html>
+</html>
