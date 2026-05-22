@@ -214,3 +214,76 @@ ON donors(is_available);
 
 CREATE INDEX idx_last_donation
 ON donors(last_donation_date);
+
+CREATE TABLE emergency_requests (
+
+    request_id INT PRIMARY KEY AUTO_INCREMENT,
+
+    hospital_name VARCHAR(100) NOT NULL,
+
+    needed_blood_type INT NOT NULL,
+
+    units_needed INT NOT NULL,
+
+    urgency_level ENUM('Low', 'Medium', 'High', 'Critical') NOT NULL,
+
+    latitude DECIMAL(9,6) NOT NULL,
+
+    longitude DECIMAL(9,6) NOT NULL,
+
+    request_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (needed_blood_type)
+        REFERENCES blood_types(blood_type_id)
+        ON DELETE CASCADE
+);
+
+INSERT INTO emergency_requests
+(hospital_name, needed_blood_type,
+units_needed, urgency_level,
+latitude, longitude)
+
+VALUES
+
+('Apollo Hospital', 1,
+5, 'Critical',
+12.971600, 77.594600);
+
+SELECT
+    er.hospital_name,
+    bt_needed.blood_group AS needed_blood,
+
+    d.full_name,
+    d.phone_number,
+
+    bt_donor.blood_group AS donor_blood_group,
+
+    ROUND(
+        SQRT(
+            POW(d.latitude - er.latitude, 2) +
+            POW(d.longitude - er.longitude, 2)
+        ),
+        4
+    ) AS distance
+
+FROM emergency_requests er
+
+JOIN compatibility_rules cr
+    ON er.needed_blood_type = cr.recipient_type_id
+
+JOIN donors d
+    ON d.blood_type_id = cr.donor_type_id
+
+JOIN blood_types bt_needed
+    ON er.needed_blood_type = bt_needed.blood_type_id
+
+JOIN blood_types bt_donor
+    ON d.blood_type_id = bt_donor.blood_type_id
+
+WHERE d.health_status = 'Healthy'
+
+AND d.is_available = TRUE
+
+AND DATEDIFF(CURDATE(), d.last_donation_date) > 56
+
+ORDER BY distance ASC;
