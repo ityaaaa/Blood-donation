@@ -86,34 +86,6 @@ VALUES
 -- AB+
 (5,5);
 
-INSERT INTO compatibility_rules 
-(donor_type_id, recipient_type_id)
-VALUES
-
--- O- universal donor
-(8,1),(8,2),(8,3),(8,4),(8,5),(8,6),(8,7),(8,8),
-
--- O+
-(7,1),(7,3),(7,5),(7,7),
-
--- A-
-(2,1),(2,2),(2,5),(2,6),
-
--- A+
-(1,1),(1,5),
-
--- B-
-(4,3),(4,4),(4,5),(4,6),
-
--- B+
-(3,3),(3,5),
-
--- AB-
-(6,5),(6,6),
-
--- AB+
-(5,5);
-
 
 INSERT INTO donors
 (full_name, phone_number, blood_type_id,

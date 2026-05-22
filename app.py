@@ -7,7 +7,7 @@ app = Flask(__name__, template_folder='.')
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="415623root",
+    password="munni@2006",
     database="blood_donation_system"
 )
 
