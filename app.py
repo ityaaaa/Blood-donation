@@ -27,7 +27,15 @@ def home():
 SELECT
     d.full_name,
     d.phone_number,
-    bt_donor.blood_group
+    bt_donor.blood_group,
+
+    ROUND(
+        SQRT(
+            POW(d.latitude - 12.9716, 2) +
+            POW(d.longitude - 77.5946, 2)
+        ),
+        4
+    ) AS distance
 
 FROM donors d
 
@@ -47,8 +55,9 @@ AND d.health_status = 'Healthy'
 AND d.is_available = TRUE
 
 AND DATEDIFF(CURDATE(), d.last_donation_date) > 56
-"""
 
+ORDER BY distance ASC
+"""
         cursor.execute(query, (selected_group,))
 
         donors = cursor.fetchall()
