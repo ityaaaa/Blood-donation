@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}BloodDon - Home{% endblock %}
+
+{% block content %}
+<div class="hero-banner">
+    <h1>National Blood Management Network</h1>
+    <p class="subtitle">Real-time emergency distribution layer optimizing blood availability across regional hospitals and voluntary donor registries.</p>
+</div>
+
+<div class="live-counters-grid">
+    <div class="counter-card">
+        <span class="counter-label">Active Total Donors</span>
+        <span class="counter-value">1,482</span>
+    </div>
+    <div class="counter-card alert-state">
+        <span class="counter-label">Pending Hospital Requests</span>
+        <span class="counter-value">14</span>
+    </div>
+    <div class="counter-card">
+        <span class="counter-label">Matched Today</span>
+        <span class="counter-value">89</span>
+    </div>
+    <div class="counter-card">
+        <span class="counter-label">Avg Connection Speed</span>
+        <span class="counter-value">&lt; 1.0s</span>
+    </div>
+</div>
+
+<div class="dashboard-grid">
+    <div class="portal-card-wrapper">
+        <div class="portal-card-body">
+            <h3>Hospital Dashboard</h3>
+            <p>Find compatible local donors, verify clinical health requirements, and broadcast immediate blood supply needs across the secure network grid.</p>
+        </div>
+        <div class="portal-card-footer">
+            <a href="{{ url_for('hospital_dashboard') }}" class="btn-action-primary">Enter Portal</a>
+        </div>
+    </div>
+
+    <div class="portal-card-wrapper secondary-card">
+        <div class="portal-card-body">
+            <h3>Donor Dashboard</h3>
+            <p>Register or update your availability, save your current location tracking tokens, and view active emergency hospital requests nearby.</p>
+        </div>
+        <div class="portal-card-footer">
+            <a href="{{ url_for('donor_dashboard') }}" class="btn-action-secondary">Enter Portal</a>
+        </div>
+    </div>
+</div>
+
+<div class="info-layout-wrapper">
+    <h3>Clinical Guidelines & Transfusion Standards</h3>
+    <p class="section-intro-text">Operational safety protocols implemented within BloodDon to streamline automated allocation pipelines without human error.</p>
+    
+    <div class="metrics-row">
+        <div class="metric-panel">
+            <span class="panel-tag">Safety Requirement</span>
+            <h4>The 56-Day Whole Blood Cooldown</h4>
+            <p>To preserve donor health conditions and comply with strict medical criteria, the database automatically filters out profiles with donation logs younger than 56 days.</p>
+        </div>
+        <div class="metric-panel">
+            <span class="panel-tag">Compatibility Protocol</span>
+            <h4>Universal Cross-Match Mapping</h4>
+            <p>O-Negative configurations are tracked directly as universal supply variables, meaning they are displayed as instantly compatible for all recipient profile categories.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

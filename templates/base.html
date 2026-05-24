@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}BloodDon Network{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand" style="cursor: pointer;" onclick="window.location.href='/'">BloodDon</div>
+        <div class="nav-links">
+            <a href="{{ url_for('index') }}" class="{% if active_page == 'index' %}active{% endif %}">Home</a>
+            <a href="{{ url_for('hospital_dashboard') }}" class="{% if active_page == 'hospital' %}active{% endif %}">Hospital Portal</a>
+            <a href="{{ url_for('donor_dashboard') }}" class="{% if active_page == 'donor' %}active{% endif %}">Donor Portal</a>
+            <button id="theme-toggle" class="toggle-btn">Mode</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <script>
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', targetTheme);
+            localStorage.setItem('theme', targetTheme);
+        });
+    </script>
+</body>
+</html>

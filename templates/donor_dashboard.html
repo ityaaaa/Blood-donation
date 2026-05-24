@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}Donor Hub - BloodDon{% endblock %}
+
+{% block content %}
+<h1>Donor Dashboard</h1>
+<p class="subtitle">Register your profile or review active emergency requests from nearby hospitals</p>
+
+<div class="dashboard-grid">
+    <div class="form-wrapper">
+        <h3>Register / Update Profile</h3>
+        <form method="POST" action="{{ url_for('donor_dashboard') }}">
+            <input type="hidden" name="form_type" value="register_donor">
+            <input type="hidden" name="lat" class="geo-lat" value="12.9716">
+            <input type="hidden" name="lng" class="geo-lng" value="77.5946">
+
+            <div class="form-group">
+                <label for="full_name">Full Name:</label>
+                <input type="text" name="full_name" id="full_name" placeholder="Your Name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone_number">Phone Number:</label>
+                <input type="text" name="phone_number" id="phone_number" placeholder="Mobile Number" required>
+            </div>
+
+            <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div class="form-group">
+                    <label for="blood_type_id">Blood Group:</label>
+                    <select name="blood_type_id" id="blood_type_id" required>
+                        <option value="1">A+</option><option value="2">A-</option>
+                        <option value="3">B+</option><option value="4">B-</option>
+                        <option value="5">AB+</option><option value="6">AB-</option>
+                        <option value="7">O+</option><option value="8">O-</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="last_donation_date">Last Donation Date:</label>
+                    <input type="date" name="last_donation_date" id="last_donation_date" required>
+                </div>
+            </div>
+
+            <button type="submit" style="background: transparent; color: var(--text-primary); border: 2px solid var(--border-dim);">Submit Profile</button>
+        </form>
+    </div>
+
+    <div class="form-wrapper">
+        <h3>Live Hospital Alerts</h3>
+        <div style="display: flex; flex-direction: column; gap: 16px; overflow-y: auto; max-height: 380px;">
+            {% if requests %}
+                {% for req in requests %}
+                    <div class="donor-card" style="border-left: 3px solid var(--primary); padding: 16px; width: 100%;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <span style="font-size: 15px; font-weight: 700;">{{ req.hospital_name }}</span>
+                            <span class="blood-badge" style="font-size: 11px; padding: 2px 8px;">{{ req.needed_blood }}</span>
+                        </div>
+                        <p><span>Units Needed:</span> <strong>{{ req.units_needed }} Bags</strong></p>
+                        <p><span>Urgency Level:</span> <strong style="color: var(--primary-bright);">{{ req.urgency_level }}</strong></p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div style="text-align: center; color: var(--text-secondary); padding-top: 40px; font-size: 14px;">
+                    No urgent hospital alerts are currently broadcasting.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+            document.querySelectorAll('.geo-lat').forEach(el => el.value = position.coords.latitude);
+            document.querySelectorAll('.geo-lng').forEach(el => el.value = position.coords.longitude);
+        });
+    }
+</script>
+{% endblock %}
