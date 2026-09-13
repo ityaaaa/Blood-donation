@@ -1,4 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template
+
+app = Flask(__name__)  # Vercel looks for the variable named 'app'
 import mysql.connector
 
 app = Flask(__name__, template_folder='templates')
